@@ -1,0 +1,27 @@
+server:
+  port: ${PORT:8081}
+  error:
+    include-message: always
+    include-stacktrace: never
+    include-binding-errors: always
+
+spring:
+  application:
+    name: noter-backend
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_HOST:host.docker.internal}:${DB_PORT:5432}/${DB_NAME:NOTERDB}
+
+springdoc:
+  swagger-ui:
+    path: /docs
+    display-operation-id: true
+    display-request-duration: true
+  api-docs:
+    path: /docs/json
