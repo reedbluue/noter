@@ -1,4 +1,4 @@
-package dev.ioliver.noterbackend.dtos.request;
+package dev.ioliver.noterbackend.dtos.request.exception;
 
 import dev.ioliver.noterbackend.constants.ExceptionMessages;
 import java.util.ArrayList;

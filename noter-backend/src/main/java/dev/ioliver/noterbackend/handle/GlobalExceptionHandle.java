@@ -1,8 +1,8 @@
 package dev.ioliver.noterbackend.handle;
 
 import dev.ioliver.noterbackend.constants.ExceptionMessages;
-import dev.ioliver.noterbackend.dtos.request.DefaultExceptionResponse;
-import dev.ioliver.noterbackend.dtos.request.DefaultValidationExceptionResponse;
+import dev.ioliver.noterbackend.dtos.request.exception.DefaultExceptionResponse;
+import dev.ioliver.noterbackend.dtos.request.exception.DefaultValidationExceptionResponse;
 import dev.ioliver.noterbackend.exceptions.DefaultException;
 import org.hibernate.query.sqm.UnknownPathException;
 import org.springframework.http.HttpStatus;

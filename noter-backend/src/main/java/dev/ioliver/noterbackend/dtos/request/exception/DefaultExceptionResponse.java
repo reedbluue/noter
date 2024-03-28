@@ -1,4 +1,4 @@
-package dev.ioliver.noterbackend.dtos.request;
+package dev.ioliver.noterbackend.dtos.request.exception;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;

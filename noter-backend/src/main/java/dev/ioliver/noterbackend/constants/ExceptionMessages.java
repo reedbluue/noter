@@ -9,4 +9,8 @@ public class ExceptionMessages {
 
   public static final String UNKNOWN_PATH_EXCEPTION =
       "Falha na consulta do caminho. Verifique o caminho e tente novamente.";
+
+  // DOCUMENT
+
+  public static final String DOCUMENT_NOT_FOUND = "Documento não encontrado.";
 }
