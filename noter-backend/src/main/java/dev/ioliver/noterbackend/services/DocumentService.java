@@ -9,7 +9,7 @@ import dev.ioliver.noterbackend.exceptions.document.DocumentNotFoundException;
 import dev.ioliver.noterbackend.mappers.DocumentMapper;
 import dev.ioliver.noterbackend.repositories.DocumentRepository;
 import jakarta.validation.constraints.NotNull;
-import java.util.UUID;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -25,16 +25,20 @@ public class DocumentService {
   private final ApplicationEventPublisher applicationEventPublisher;
 
   @Transactional(readOnly = true)
-  public DocumentDTO get(@NotNull UUID id) throws DocumentNotFoundException {
-    Document document =
-        documentRepository.optionalById(id).orElseThrow(() -> new DocumentNotFoundException(id));
-
-    return documentMapper.toDto(document);
+  public DocumentDTO get(@NotNull String id) throws DocumentNotFoundException {
+    Optional<Document> document = documentRepository.optionalById(id);
+    DocumentDTO documentDTO;
+    if (document.isEmpty()) {
+      documentDTO = create(id);
+    } else {
+      documentDTO = documentMapper.toDto(document.get());
+    }
+    return documentDTO;
   }
 
   @Transactional
-  public DocumentDTO create() {
-    Document document = Document.builder().build();
+  public DocumentDTO create(@NotNull String id) {
+    Document document = Document.builder().id(id).build();
     Document saved = documentRepository.save(document);
     return documentMapper.toDto(saved);
   }

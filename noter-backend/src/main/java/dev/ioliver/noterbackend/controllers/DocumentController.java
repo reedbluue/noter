@@ -13,12 +13,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,17 +37,8 @@ public class DocumentController {
   @ApiResponse(responseCode = "404", description = ExceptionMessages.DOCUMENT_NOT_FOUND,
       content = @Content(schema = @Schema(implementation = DefaultExceptionResponse.class)))
   @Operation(description = "This endpoint get document by id", summary = "Get document by id")
-  public DocumentDTO get(@PathVariable UUID id) throws DocumentNotFoundException {
+  public DocumentDTO get(@PathVariable String id) throws DocumentNotFoundException {
     return documentService.get(id);
-  }
-
-  @PostMapping
-  @ResponseStatus(HttpStatus.CREATED)
-  @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(
-      schema = @Schema(implementation = DefaultValidationExceptionResponse.class)))
-  @Operation(description = "This endpoint create new document", summary = "Create new document")
-  public DocumentDTO create() {
-    return documentService.create();
   }
 
   @PutMapping
