@@ -1,8 +1,8 @@
-import "./init.js";
 import {createBrowserRouter} from "react-router-dom";
 import {Base} from "../layout/Base";
 import {DocumentPage} from "../pages/DocumentPage.tsx";
-import {StompSessionProvider} from "react-stomp-hooks";
+import {StompProvider} from "../components/StompProvider.tsx";
+import {IndexPage} from "../pages/IndexPage.tsx";
 
 export const router = createBrowserRouter([
   {
@@ -11,14 +11,11 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <p>Main</p>
+        element: <IndexPage/>
       },
       {
-        path: "/:documentId",
-        element: <StompSessionProvider
-            url={"http://localhost:8081/ws"}>
-          <DocumentPage/>
-        </StompSessionProvider>
+        path: "/:documentId/*",
+        element: <StompProvider><DocumentPage/></StompProvider>
       }
     ],
   }
