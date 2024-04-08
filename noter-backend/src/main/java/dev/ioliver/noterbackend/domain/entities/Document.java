@@ -19,8 +19,6 @@ public class Document {
   @Id
   private String id;
 
-  @Builder.Default private String title = "";
-
   @Builder.Default
   @Column(columnDefinition = "TEXT")
   private String content = "";

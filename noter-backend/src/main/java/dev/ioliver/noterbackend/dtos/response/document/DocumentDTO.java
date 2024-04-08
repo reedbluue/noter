@@ -4,8 +4,6 @@ public record DocumentDTO(
 
     String id,
 
-    String title,
-
     String content
 
 ) {
