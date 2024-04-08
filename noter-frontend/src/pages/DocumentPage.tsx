@@ -1,19 +1,20 @@
 import {useEffect, useState} from "react";
-import {AxiosError} from "axios";
 import {Controller, useForm} from "react-hook-form";
 import {IDocumentDTO} from "../dtos/response/document/IDocumentDTO.ts";
 import {DocumentService} from "../services/DocumentService.ts";
 import {IDefaultExceptionResponse} from "../dtos/response/exception/IDefaultExceptionResponse.ts";
 import {useSubscription} from "react-stomp-hooks";
 import toast from "react-hot-toast";
-import MDEditor from '@uiw/react-md-editor';
-import rehypeSanitize from "rehype-sanitize";
+import MarkdownEditor from "@uiw/react-markdown-editor";
+import {Edit, Type} from "react-feather";
+import {useParams} from "react-router-dom";
 
 export const DocumentPage = () => {
-  const documentId = window.location.pathname.slice(1);
+  const {documentId} = useParams();
   const [document, setDocument] = useState<IDocumentDTO>();
-  const {register, watch, reset, control} = useForm<IDocumentDTO>();
-  const {title, content} = watch();
+  const {watch, reset, control} = useForm<IDocumentDTO>();
+  const {content} = watch();
+  const [viewMode, setViewMode] = useState(true);
 
   const getDocument = async () => {
     if (documentId) {
@@ -21,6 +22,7 @@ export const DocumentPage = () => {
         const resDocument = await DocumentService.get(documentId);
         setDocument(resDocument.data);
         reset(resDocument.data);
+        window.document.title = "Noter - " + resDocument.data.id;
       } catch (e) {
         const error = e as IDefaultExceptionResponse;
         console.log(error.message);
@@ -31,21 +33,17 @@ export const DocumentPage = () => {
   const updateDocument = async () => {
     const formDocument = watch();
     if (document && (document.content
-        != formDocument.content
-        || document.title
-        != formDocument.title)) {
+        != formDocument.content)) {
       try {
         const formDocument = watch();
         const resDocument = await DocumentService.update({
           id: formDocument.id,
-          title: formDocument.title,
           content: formDocument.content,
         });
         setDocument(resDocument.data);
-        toast.success("Document updated");
+        toast.success("Document saved");
       } catch (e) {
-        const error = e as AxiosError<IDefaultExceptionResponse>;
-        console.log(error.message);
+        toast.error("Error saving document");
       }
     }
   }
@@ -62,25 +60,31 @@ export const DocumentPage = () => {
     return () => {
       clearTimeout(timer);
     }
-  }, [title, content]);
+  }, [content]);
 
   useSubscription(`/topic/doc-update-${documentId}`, getDocument);
 
   return (
-      <div>
-        <form>
-          <input type={"text"} {...register("title")}/>
-          <textarea {...register("content")}/>
-          <Controller control={control} name={"content"} render={
-            ({field}) => (
-                <MDEditor {...field}
-                          previewOptions={{
-                            rehypePlugins: [[rehypeSanitize]],
-                          }}
-                />
-            )
-          }/>
-        </form>
+      <div className={"h-full w-full flex flex-col gap-5"}>
+        {!viewMode &&
+            <Controller name={"content"} control={control} render={({field}) => (
+                <MarkdownEditor {...field} className={"flex-grow"}
+                                toolbarsMode={["preview", {
+                                  name: "view",
+                                  icon: <Type size={16}/>,
+                                  execute: () => setViewMode(true)
+                                }]}/>
+            )}/>
+        }
+        {viewMode &&
+            <div className={"flex-grow flex flex-col"}>
+              <button className="btn btn-circle fixed bottom-5 right-5"
+                      onClick={() => setViewMode(false)}>
+                <Edit size={20}/>
+              </button>
+              <MarkdownEditor.Markdown source={content} className={"flex-grow"}/>
+            </div>
+        }
       </div>
   )
 }

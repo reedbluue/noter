@@ -1,5 +1,6 @@
 import axios from 'axios';
+import {VITE_BASE_URL} from "./Env.ts";
 
 export const baseUrl = axios.create({
-  baseURL: 'http://localhost:8081'
+  baseURL: VITE_BASE_URL
 })

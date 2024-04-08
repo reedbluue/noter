@@ -3,9 +3,9 @@ import {Toaster} from "react-hot-toast";
 
 export const BasePage = () => {
   return (
-      <div>
+      <div className={"h-screen w-screen flex flex-col"}>
         <Outlet/>
-        <Toaster/>
+        <Toaster position={"bottom-left"}/>
       </div>
   );
 }
