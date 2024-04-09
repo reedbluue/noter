@@ -1,0 +1,26 @@
+version: "3.8"
+services:
+  noter-backend:
+    ports:
+      - "8081:8081"
+    build:
+      context: ./noter-backend
+    environment:
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=NOTERDB
+
+  noter-frontend:
+    ports:
+      - "80:80"
+    build:
+      context: ./noter-frontend
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: NOTERDB
