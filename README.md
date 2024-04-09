@@ -18,6 +18,9 @@ Noter.
 🔄 **Atualizações em Tempo Real**: Experimente atualizações em tempo real perfeitas ao colaborar em
 documentos com outras pessoas.
 
+![Noter Preview](./img/preview.gif)
+*Gif 1: Preview do Noter*
+
 ## Como Começar
 
 Para começar com o Noter, siga estas etapas simples:
