@@ -19,7 +19,6 @@ Noter.
 documentos com outras pessoas.
 
 ![Noter Preview](./img/preview.gif)
-*Gif 1: Preview do Noter*
 
 ## Como Começar
 
