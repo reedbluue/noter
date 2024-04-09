@@ -1,6 +1,8 @@
 # Noter 📝
 
-> Escolha um nome e comece a anotar!
+<img src="./img/banner.png" alt="Banner Noter">
+
+> Escolha um nome e comece a anotar com o Noter!
 
 Noter é um sistema abrangente de gerenciamento de documentos projetado para ajudá-lo a organizar e
 editar seus documentos sem esforço. Com sua interface amigável e recursos facilitadores, o Noter
@@ -70,13 +72,75 @@ de dados:
 - `DB_PORT`: Porta do banco de dados.
 - `DB_NAME`: Nome do banco de dados.
 
+## Como Começar com Docker Compose
+
+Para simplificar o processo de execução das aplicações, você pode usar o Docker Compose.
+Certifique-se de ter o Docker e o Docker Compose instalados em sua máquina antes de prosseguir.
+
+1. **Definir o Arquivo `docker-compose.yml`**: Crie um arquivo chamado `docker-compose.yml` na raiz
+   do seu projeto com o seguinte conteúdo:
+
+```yaml
+version: "3.8"
+services:
+  noter-backend:
+    build:
+      context: ./noter-backend
+    environment:
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=NOTERDB
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres
+
+  noter-frontend:
+    build:
+      context: ./noter-frontend
+    ports:
+      - "80:80"
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: NOTERDB
+```
+
+Este arquivo `docker-compose.yml` define três serviços: `noter-backend`, `noter-frontend`
+e `postgres`. Ele também configura as variáveis de ambiente necessárias para o banco de dados.
+
+2. **Executar o Docker Compose**: No terminal, navegue até o diretório onde está o
+   arquivo `docker-compose.yml` e execute o seguinte comando:
+
+```
+docker-compose up --build
+```
+
+Este comando irá construir as imagens Docker para cada serviço, criar e iniciar os contêineres.
+
+3. **Acessar o Noter**: Uma vez que os contêineres estejam em execução, abra seu navegador da web e
+   vá para `http://localhost` para acessar o Noter.
+
+Com o Docker Compose, você pode facilmente construir e executar a aplicação Noter.
+
 ## Screenshots
 
-![Noter Homepage](https://example.com/noter-homepage.png)
+![Noter Homepage](./img/main.png)
 *Figura 1: Página Inicial do Noter*
 
-![Noter Document Editor](https://example.com/noter-editor.png)
+![Noter Document Editor](./img/view.png)
+*Figura 2: Visualização de documento do Noter*
+
+![Noter Document Editor](./img/raw.png)
 *Figura 2: Editor de Documentos do Noter*
+
+![Noter Document Editor](./img/split.png)
+*Figura 2: Preview em tempo real do Noter*
 
 ## Tecnologias Utilizadas
 
@@ -94,4 +158,4 @@ recurso, sinta-se à vontade para abrir uma issue ou enviar um pull request.
 ## Licença
 
 Este projeto está licenciado sob a Licença MIT - consulte o
-arquivo [LICENSE](https://github.com/reedbluue/noter/blob/main/LICENSE) para obter detalhes.
+arquivo [LICENSE](./LICENSE.md) para obter detalhes.
