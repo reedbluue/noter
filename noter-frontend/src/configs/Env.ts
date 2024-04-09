@@ -1,1 +1,1 @@
-export const VITE_BASE_URL = import.meta.env.VITE_BASE_URL || 'http://localhost:8081';
+export const VITE_BASE_URL = import.meta.env.VITE_BASE_URL || 'http://10.88.4.15:8081';
